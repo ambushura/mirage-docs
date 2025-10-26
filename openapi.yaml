@@ -1,0 +1,147 @@
+openapi: 3.0.3
+info:
+  title: Mirage API Site
+  version: "1.0.0"
+paths:
+  /site/get_hall_status:
+    get:
+      summary: Получить статус зала
+      parameters:
+        - name: uid_seance
+          in: query
+          required: true
+          schema:
+            type: string
+          description: Идентификатор сеанса
+      responses:
+        '200':
+          description: OK
+      security:
+        - ApiKeyAuth: []
+  /site/take_seat:
+    get:
+      summary: Забронировать место
+      parameters:
+        - name: uid_seance
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: row_place
+          in: query
+          required: true
+          schema:
+            type: string
+        - name: number_place
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+      security:
+        - ApiKeyAuth: []
+  /site/remove_seat:
+    post:
+      summary: Удалить место
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                type: string
+      responses:
+        '200':
+          description: OK
+      security:
+        - ApiKeyAuth: []
+  /site/close_order:
+    post:
+      summary: Закрыть заказ
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                pay_system:
+                  type: integer
+                number:
+                  type: integer
+                items:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      uid:
+                        type: string
+                      price:
+                        type: number
+                      discount_id:
+                        type: string
+                client:
+                  type: object
+                  properties:
+                    buyer_uid:
+                      type: string
+                    buyer_phone_number:
+                      type: string
+                slip:
+                  type: object
+                  properties:
+                    rrn:
+                      type: integer
+                receipt:
+                  type: object
+                  properties:
+                    shift_number:
+                      type: integer
+                    fd:
+                      type: integer
+                    fp:
+                      type: string
+                    fn:
+                      type: string
+                    number:
+                      type: integer
+                    moment:
+                      type: string
+                      format: date-time
+      responses:
+        '200':
+          description: OK
+      security:
+        - ApiKeyAuth: []
+  /site/return_tickets:
+    post:
+      summary: Вернуть билеты
+      responses:
+        '200':
+          description: OK
+      security:
+        - ApiKeyAuth: []
+  /site/get_order_status:
+    get:
+      summary: Получить статус заказа
+      parameters:
+        - name: uid_order
+          in: query
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: OK
+      security:
+        - ApiKeyAuth: []
+
+components:
+  securitySchemes:
+    ApiKeyAuth:
+      type: apiKey
+      in: header
+      name: Token
