@@ -1,0 +1,217 @@
+{
+	"info": {
+		"_postman_id": "b30498f8-6564-4c08-a725-fa1cb6bce2ff",
+		"name": "mirage api site",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26764816"
+	},
+	"item": [
+		{
+			"name": "Получить статус зала",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Token",
+						"value": "a67b1a4f-fa57-449e-bbb0-52ea3557edef",
+						"description": "Авторизационный токен",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{dev_url}}/site/get_hall_status?uid_seance=03c34501-92de-4641-9a9f-840af4d68d34",
+					"host": [
+						"{{dev_url}}"
+					],
+					"path": [
+						"site",
+						"get_hall_status"
+					],
+					"query": [
+						{
+							"key": "uid_seance",
+							"value": "03c34501-92de-4641-9a9f-840af4d68d34",
+							"description": "Идентификатор сеанса"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Забронировать место",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Token",
+						"value": "a67b1a4f-fa57-449e-bbb0-52ea3557edef",
+						"description": "Авторизационный токен",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{dev_url}}/site/take_seat?uid_seance=03c34501-92de-4641-9a9f-840af4d68d34&row_place=1&number_place=6",
+					"host": [
+						"{{dev_url}}"
+					],
+					"path": [
+						"site",
+						"take_seat"
+					],
+					"query": [
+						{
+							"key": "uid_seance",
+							"value": "03c34501-92de-4641-9a9f-840af4d68d34",
+							"description": "Идентификатор сеанса"
+						},
+						{
+							"key": "row_place",
+							"value": "1",
+							"description": "Номер ряда"
+						},
+						{
+							"key": "number_place",
+							"value": "6",
+							"description": "Номер места"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Удалить место",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Token",
+						"value": "a67b1a4f-fa57-449e-bbb0-52ea3557edef",
+						"description": "Авторизационный токен",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "[\r\n  \"0ebdd597-fc00-4743-850e-30f7af612952\"\r\n]\r\n",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{dev_url}}/site/remove_seat",
+					"host": [
+						"{{dev_url}}"
+					],
+					"path": [
+						"site",
+						"remove_seat"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Закрыть заказ",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Token",
+						"value": "a67b1a4f-fa57-449e-bbb0-52ea3557edef",
+						"description": "Авторизационный токен",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n    \"pay_system\": 13,\r\n\t\"number\": 71165929,\r\n    \"items\": [\r\n        {\r\n            \"uid\": \"d65c39f8-fffa-4e8f-acfb-e6d7a611caae\",\r\n            \"price\": 1760.00,\r\n            \"discount_id\": null\r\n            },\r\n        {\r\n            \"uid\": \"441dde71-a490-4f7f-a77b-52105721ac8e\",\r\n            \"price\": 1760.00,\r\n            \"discount_id\": null\r\n            }\r\n        ],\r\n    \"client\": {\r\n        \"buyer_uid\": \"7b999e9b-34d8-4303-84a4-ec6681992bd6\",\r\n        \"buyer_phone_number\": \"79119197189\"\r\n    },\r\n    \"slip\": {\r\n        \"rrn\": 410921810829\r\n        },\r\n    \"receipt\": {\r\n        \"shift_number\": 45,\r\n        \"fd\": 234243,\r\n        \"fp\": \"34243\",\r\n        \"fn\": \"24234\",\r\n        \"number\": 66,\r\n        \"moment\": \"2025-10-25T16:42:00\"\r\n    }\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{dev_url}}/site/close_order",
+					"host": [
+						"{{dev_url}}"
+					],
+					"path": [
+						"site",
+						"close_order"
+					]
+				},
+				"description": "# Close Order API\n\nThis endpoint is used to close an order in the system. It processes the request to finalize the order based on the provided parameters and returns a response indicating the success of the operation.\n\n## Request\n\n### Method\n\n`POST`\n\n### URL\n\n`{{dev_url}}/site/close_order`\n\n### Request Body\n\nThe request body should be in JSON format and include the following parameters:\n\n- **buyer_phone_number** (string): The phone number of the buyer associated with the order.\n    \n- **number** (string): The unique order number that identifies the order to be closed.\n    \n- **pay_system** (string): The payment system identifier used for the transaction.\n    \n- **buyer_uid** (string): A unique identifier for the buyer.\n    \n- **rrn** (number): The reference number for the transaction.\n    \n- **uid** (array of objects): A list of unique identifiers associated with the order. Each object in the array should have:\n    \n    - **uid** (string): A unique identifier for the specific item or transaction.\n        \n    - **discount_id** (string): An identifier for any discount applied to the order.\n        \n\n### Example Request Body\n\n``` json\n{\n  \"buyer_phone_number\": \"79119197189\",\n  \"number\": \"7116591\",\n  \"pay_system\": \"13\",\n  \"buyer_uid\": \"7b999e9b-34d8-4303-84a4-ec6681...\",\n  \"rrn\": 410921810829,\n  \"uid\": [\n    {\n      \"uid\": \"ef7dcf08-e6d7-47b8-851b-792b97...\",\n      \"discount_id\": \"ef7dcf08-e6d7-47b8-851b-792b97...\"\n    }\n  ]\n}\n\n ```\n\n## Response\n\n### Status Code\n\n- **200 OK**: Indicates that the order has been successfully closed.\n    \n\n### Response Body\n\nThe response is in JSON format. If the request is successful, the content will be empty.\n\n### Example Response\n\n``` json\nnull\n\n ```\n\nThis endpoint is crucial for managing order states within the application, ensuring that orders can be effectively closed based on the provided identifiers and transaction details."
+			},
+			"response": []
+		},
+		{
+			"name": "Вернуть билеты",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Token",
+						"value": "a67b1a4f-fa57-449e-bbb0-52ea3557edef",
+						"description": "Авторизационный токен",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{dev_url}}/site/return_tickets",
+					"host": [
+						"{{dev_url}}"
+					],
+					"path": [
+						"site",
+						"return_tickets"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Получить статус заказа",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Token",
+						"value": "a67b1a4f-fa57-449e-bbb0-52ea3557edef",
+						"description": "Авторизационный токен",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "{{dev_url}}/site/get_order_status?uid_order=a67b1a4f-fa57-449e-bbb0-52ea3557edef",
+					"host": [
+						"{{dev_url}}"
+					],
+					"path": [
+						"site",
+						"get_order_status"
+					],
+					"query": [
+						{
+							"key": "uid_order",
+							"value": "a67b1a4f-fa57-449e-bbb0-52ea3557edef",
+							"description": "Идентификатор заказа"
+						}
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "dev_url",
+			"value": "",
+			"type": "default"
+		}
+	]
+}
